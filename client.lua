@@ -44,7 +44,7 @@ AddEventHandler('ipixel-salary:take', function()
     }, function(status)
         if not status then
             if totalsalary => 1 then
-                TriggerServerEvent('ipixel-salary:takes', source)
+                TriggerServerEvent('ipixel-salary:takes', source, totalsalary)
                 totalsalary = 0
             else
                 exports["mythic_notify"]:DoHudText('error', 'Your salary is not enough.')
