@@ -1,12 +1,23 @@
 ESX = nil
+local totalsalary = 0
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(7 * 60000)
-        TriggerServerEvent('ipixel-salary:salary', source)
+        TriggerEvent('ipixel-salary:salary')
     end
+end)
+
+RegisterNetEvent('ipixel-salary:salary')
+AddEventHandler('ipixel-salary:salary', function()
+    if totalsalary <= 1500 then
+		totalsalary = totalsalary + 50
+		exports["mythic_notify"]:DoHudText('success', 'Salary + ' .. salary)
+	else
+        exports["mythic_notify"]:DoHudText('error', 'Your Salary is Full, Take it out in near ATM.')
+	end
 end)
 
 RegisterNetEvent('ipixel-salary:take')
@@ -32,7 +43,12 @@ AddEventHandler('ipixel-salary:take', function()
         }
     }, function(status)
         if not status then
-            TriggerServerEvent('ipixel-salary:takes', source)
+            if totalsalary => 1 then
+                TriggerServerEvent('ipixel-salary:takes', source)
+                totalsalary = 0
+            else
+                exports["mythic_notify"]:DoHudText('error', 'Your salary is not enough.')
+            end
         end
     end)
 end)
