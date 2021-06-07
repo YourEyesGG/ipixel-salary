@@ -5,8 +5,8 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 Citizen.CreateThread(function()
     while true do
-        Citizen.Wait(7 * 60000)
         TriggerEvent('ipixel-salary:salary')
+	Citizen.Wait(7 * 60000)
     end
 end)
 
@@ -52,4 +52,8 @@ AddEventHandler('ipixel-salary:take', function()
             end
         end
     end)
+end)
+
+RegisterCommand('salary', function()
+	exports["mythic_notify"]:DoHudText('inform', 'You have $' .. totalsalary .. ' Salary.')
 end)
