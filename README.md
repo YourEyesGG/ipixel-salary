@@ -1,5 +1,5 @@
 # iPixel Salary
-**Salary with Claim Method**
+**Salary with Claim Method With Anti Exploit**
 
 > Dependency
 - [bt-target](https://github.com/brentN5/bt-target)
