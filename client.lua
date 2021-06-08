@@ -15,7 +15,7 @@ AddEventHandler('ipixel-salary:salary', function()
     	if totalsalary <= 1500 then
 		totalsalary = totalsalary + 50
 		ehm = 1
-		exports["mythic_notify"]:DoHudText('success', 'Salary + ' .. salary)
+		exports["mythic_notify"]:DoHudText('success', 'Salary + ' .. totalsalary)
 	else
         	exports["mythic_notify"]:DoHudText('error', 'Your Salary is Full, Take it out in near ATM.')
 	end
@@ -44,7 +44,7 @@ AddEventHandler('ipixel-salary:take', function()
         }
     }, function(status)
         if not status then
-            if totalsalary => 1 then
+            if totalsalary >= 1 then
                 TriggerServerEvent('ipixel-salary:takes', source, totalsalary, ehm)
                 totalsalary = 0
             else
