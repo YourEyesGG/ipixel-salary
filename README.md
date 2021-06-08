@@ -7,6 +7,7 @@
 > Dependency
 - [bt-target](https://github.com/brentN5/bt-target)
 - [ipixel-banking](https://github.com/YourEyesGG/ipixel-banking)
+- [mythic_notify](https://github.com/JayMontana36/mythic_notify)
 
 **Add this in your server.cfg or antoher cfg
 start ipixel-salary**
