@@ -1,5 +1,5 @@
 # iPixel Salary
-**Salary with Claim Method With Anti Exploit**
+**Salary with Claim Method SQL With Anti Exploit**
 
 > **Preview**
 [Image](https://cdn.discordapp.com/attachments/792763785856286730/851287709574365254/unknown.png)
