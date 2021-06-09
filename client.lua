@@ -1,24 +1,40 @@
 ESX = nil
-local totalsalary, ehm = 0, 0
+local totalsalary = 0
+local salaryamount = 0
+local ah = 1
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 Citizen.CreateThread(function()
     while true do
-        TriggerEvent('ipixel-salary:salary')
-	Citizen.Wait(7 * 60000)
+        Citizen.Wait(2000)
+        TriggerServerEvent('ipixel-salary:getSalary', GetPlayerServerId(PlayerId()))
+        Wait(200)
+        if totalsalary <= 1500 then
+            TriggerServerEvent('ipixel-salary:getSalaryAmount')
+            Wait(200)
+            totalsalary = totalsalary + salaryamount
+            TriggerServerEvent('ipixel-salary:updateSalary', totalsalary)
+            exports["mythic_notify"]:DoHudText('success', 'Salary + $'..salaryamount..'')
+            ah = 3
+        else
+            exports["mythic_notify"]:DoHudText('error', 'Your salary is full, take it out on near ATM.')
+            ah = 3
+        end
+        Citizen.Wait(420000)
     end
 end)
 
-RegisterNetEvent('ipixel-salary:salary')
-AddEventHandler('ipixel-salary:salary', function()
-    	if totalsalary <= 1500 then
-		totalsalary = totalsalary + 50
-		ehm = 1
-		exports["mythic_notify"]:DoHudText('success', 'Salary + ' .. totalsalary)
-	else
-        	exports["mythic_notify"]:DoHudText('error', 'Your Salary is Full, Take it out in near ATM.')
-	end
+-- Total current user salary
+RegisterNetEvent('ipixel-salary:currentSalary')
+AddEventHandler('ipixel-salary:currentSalary', function(amount)
+    totalsalary = amount
+end)
+
+-- Salary amount
+RegisterNetEvent('ipixel-salary:salaryAmount')
+AddEventHandler('ipixel-salary:salaryAmount', function(amount)
+    salaryamount = amount
 end)
 
 RegisterNetEvent('ipixel-salary:take')
@@ -44,16 +60,13 @@ AddEventHandler('ipixel-salary:take', function()
         }
     }, function(status)
         if not status then
-            if totalsalary >= 1 then
-                TriggerServerEvent('ipixel-salary:takes', source, totalsalary, ehm)
-                totalsalary = 0
-            else
-                exports["mythic_notify"]:DoHudText('error', 'Your salary is not enough.')
-            end
+            TriggerServerEvent('ipixel-salary:takes', totalsalary, ah)
+            ClearPedTasks(GetPlayerPed(-1))
         end
     end)
 end)
 
-RegisterCommand('salary', function()
-	exports["mythic_notify"]:DoHudText('inform', 'You have $' .. totalsalary .. ' Salary.')
+-- Check salary command
+RegisterCommand("salary", function() 
+    exports["mythic_notify"]:DoHudText('inform', 'Your pending salary is $' .. totalsalary ..'')
 end)
